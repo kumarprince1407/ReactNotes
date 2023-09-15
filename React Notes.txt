@@ -1,0 +1,1389 @@
+//WiFi key for Airtel: air15602
+
+   -What is React? called the virtual DOM. Instead of updating the actual DOM directly, React makes changes
+	React is a open source JavaScript library(not a framework) for building User Interfaces(UI).
+   
+   -Features of React
+    1. Component based: React encourages a component-based archietecture, where UIs are broken 
+	   down into reusable components.
+	2. Virtual DOM: Recat uses a virtual representation of DOM called the virtual DOM. Instead of updating the actual DOM directly,
+       React makes changes to the virtual DOM and then efficiently updates the real DOM by applying the minimum necessary changes.
+	   This process significantly improves performance.
+	   
+	3.State management: React component can have their state, which is used to manage dynamic data and UI behaviour. When the state
+      of a component changes, React automaticaaly re-renders the component to reflect those changes.
+	  
+	4.Reuasbility: react promotes the creation of reusable UI components. These components can be composed and combined to build 
+	  complex user interfaces.
+	  
+//4. Components
+
+	Q. What are components in React?
+	 - In React, components are the building blocks of any user interface. 
+	 - They are reusable, self-contained units that encapsultes specific parts of a UI's functionality and presentation. 
+	  
+
+//5. Functional components
+	 - Functional components, also known as stateless components, are JavaScript functions that return JSX elements.
+	 - Functional components can optionally receive an object of properties which is referred as 'props' anr return HTML which describes the UI.
+	 
+//6. Class components
+	 - Class components are also known as stateful components, are JavaScript classes that extend React's component class. They have an internal state
+	   and can manage their own state and behaviour.
+	 - Just like functional components, they can also optionally receive 'props' as inputs and return HTML elements.
+
+//7. Hooks update
+	 
+//8. JSX (JavaScript XML)
+	 - JSX is a syntax extension for JavaScript that allows us to define elements, attributes and contents in a way that resembles writing HTML elements.
+	 
+	
+//9. Props
+	 - Props(properties) is the optional input that our component can access. It also allows our component to be dynamic.
+	 
+  const Greet = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>
+        Hello {props.name} a.k.a. {props.heroName}
+      </h1>
+      {props.children}
+    </div> // We have to enclose our content in one div wrapper tag b/c we can return only 1 html element
+  );
+};
+	 
+//10. State
+	 - In React, "State" refers to an object that holds data that affects a component's behaviour and rendering.
+	 - A state can be changed within the component.
+
+//11. setState
+
+	- setState is a method provided by React for updating the state of a component. In class-based components,
+	  it's used to update the component's state, while in functional components, it can be used with the useState hook.
+	- The setState method triggers a re-render of the component with the updated state, allowing React to efficiently 
+	  update the UI based on the new state values.
+//Counter.js
+
+import React, { Component } from "react"; //rce + Enter
+
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  increment() {
+    
+    this.setState((prevState, props) => ({
+      //prevState :previous state of the component. props- new state is dependent on props
+      //When we have to update teh state based on the previous state we need to pass function as an argument to the setState 
+	    method instead of passing in as an object
+      count: prevState.count + 1,
+    }));
+    console.log(this.state.count);
+  }
+
+  incrementFive() {
+    this.increment();
+    this.increment();
+    this.increment();
+    this.increment();
+    this.increment();
+  }
+
+  render() {
+    return (
+      <div>
+        <div>Count - {this.state.count}</div>
+        <button onClick={() => this.incrementFive()}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default Counter;
+
+IMPORTANT POINTS
+
+1.Always make use of setState and never modify the state directly
+2. Code has to be executed after the state has been updated. Place that code in the call back function which is the second argument to the setState method.
+3. When we have to update state based on the previous state value, pass in a function as an argumentinstead of the regular object. 
+
+//12. Destructuring props and state
+
+Destructuring - A feature of ES6 feature that makes it possible to unpack values from arrays or properties from objects into distinct variables.
+
+- Destructuring in React allows us to extract specific properties or values from objects (such as props and state) and assign them to variables
+  with shorter names. This can make your code more concise and easier to read.
+- There are 2 ways to destructure props in a functional component.
+1. Destructure it in the functional parameter itself
+//Greet.js
+
+const Greet = ({ name, heroName }) => {
+  //  Extracting name and heroname from the props object / Destructure it in the functional parameter itself
+  return (
+    <div>
+      <h1>
+        Hello {name} a.k.a. {heroName}
+      </h1>
+    </div> // We have to enclose our content in one div wrapper tag b/c we can return only 1 html element
+  );
+};
+
+export default Greet;
+
+2. Destructure it in the function body
+// 12.2 Destructure it in the function body
+import React from "react";
+
+const Greet = (props) => {
+  const { name, heroName } = props; //We extract name and heroname property from the props object
+  return (
+    <div>
+      <h1>
+        Hello {name} a.k.a. {heroName}
+      </h1>
+    </div> // We have to enclose our content in one div wrapper tag b/c we can return only 1 html element
+  );
+};
+
+export default Greet;
+
+-Class component
+
+In class component, we generally tend to destructure props or state in the render method.
+//12.3
+import React, { Component } from "react";
+
+class Welcome extends Component {
+  render() {
+    const { name, heroName } = this.props;
+    //In class component, we generally tend to destructure props or state in the render method.
+    // const { state1, state2 } = this.state; // Syntax for destructuring state
+    return (
+      <h1>
+        Welcome {name} a.k.a {heroName}
+      </h1>
+    );
+  }
+}
+
+export default Welcome;
+
+
+
+
+//13. Event handling
+//13.1 Event handling in functional component
+// shortcut "rfce+Enter" - Generate a React functional component, import React and also export the component.
+
+//FunctionClick.js
+
+import React from "react";
+
+function FunctionClick() {
+  function clickHandler() {
+    console.log("Button clicked");
+  }
+
+  return (
+    <div>
+      <button onClick={clickHandler}>Click</button>
+      {/* Avoid using parenthesis in the function above clickhandler() otherwise it will become a functional call which we don't want*/}
+    </div>
+  );
+}
+
+export default FunctionClick;
+
+
+1. React events are named using 'camelCase' instead of 'lowercase'. e.g. onClick
+2. We pass a function as an event handler rather than a String.
+3. Avoid using parenthesis in the function above clickhandler() otherwise it will become a functional call. We want it as a function instead of a function call
+i.e. Event handler is a 'function' and not a 'function call'
+
+//13.2 Event handling in Class component
+
+In class component method are accessed using 'this' keyword.
+
+import React, { Component } from "react";
+// shortcut "rce+Enter" - Generate a React Class component, import React and also export the component.
+class ClassClick extends Component {
+  clickHandler() {
+    console.log("Clicked the button");
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.clickHandler}>Click me</button>
+        {/* In class component method are accessed using 'this' keyword. */}
+      </div>
+    );
+  }
+}
+
+export default ClassClick;
+
+//14. Binding Event Handlers
+
+The reason we bind events in React is purely  because of the way 'this' keyword works in JavaScript and not because of how React works.
+Refer this link for explanation of 'this' keyword which is required as a prerequisite for better understanding of this module - https://www.w3schools.com/js/js_this.asp
+ - 'this' keyword within an event handler is undefined and that is why 'Event binding' is necessary in React
+ 
+ 
+ import React, { Component } from "react";
+
+class EventBind extends Component {
+  //rconst + Enter : Shortcut to create a constructor
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: "Hello!",
+    };
+
+    //Approach 3
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+  clickHandler() {
+    this.setState({
+      message: "Goodbye!",
+    }); // It will give an error if used without binding
+    console.log(this); //No error but the output is 'undefined' is used without binding. Because 'this' keyword within an event handler is undefined
+  }
+  render() {
+    return (
+      <div>
+        <div>{this.state.message}</div>
+        {/* <button onClick={this.clickHandler}>Click</button> */}
+
+        {/* <button onClick={this.clickHandler.bind(this)}>Click</button> */}
+        {/*Approach 1: Binding in the render method*/}
+
+        {/* <button onClick={() => this.clickHandler()}>Click</button> */}
+        {/*Approach 2: Using 'arrow function' in the render method. We are calling the event handler and returning the value that is why () is required with the clickhandler function.*/}
+
+        <button onClick={() => this.clickHandler()}>Click</button>
+        {/*Approach 3: Binding the 'Event handler' in the constructor as opposed to binding in the render method*/}
+      
+      {/*Approach 4Using arrow function as a class property*/}
+      </div>
+    );
+  }
+}
+
+export default EventBind;
+
+Approach 3(binding in the constructor) is better than others because the binding happens only once in the constructor
+
+ 
+ //Approach 4 - Newer version Accepted along with Approach 3
+ import React, { Component } from "react";
+
+class EventBind extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: "Hello!",
+    };
+  }
+
+
+  //Approach 4
+
+  clickHandler = () => {
+    this.setState({
+      message: "Goodbye",
+    });
+  };
+  render() {
+    return (
+      <div>
+        <div>{this.state.message}</div>
+        {/* <button onClick={this.clickHandler}>Click</button> */}
+
+        {/* <button onClick={this.clickHandler.bind(this)}>Click</button> */}
+        {/*Approach 1: Binding in the render method*/}
+
+        {/* <button onClick={() => this.clickHandler()}>Click</button> */}
+        {/*Approach 2: Using 'arrow function' in the render method. We are calling the event handler and returning the value that is why () is required with the clickhandler function.*/}
+
+        <button onClick={() => this.clickHandler()}>Click</button>
+        {/*Approach 3: Binding the 'Event handler' in the class constructor as opposed to binding in the render method*/}
+
+        <button onClick={this.clickHandler}>Click</button>
+        {/*Approach 4: Using arrow function as a class property*/}
+      </div>
+    );
+  }
+}
+
+export default EventBind;
+
+
+//15. Methods as props
+
+//15. Parent component
+import React, { Component } from "react";
+import ChildComponent from "./ChildComponent";
+
+class ParentComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      parentName: "Parent",
+    };
+    this.greetParent = this.greetParent.bind(this);
+  }
+
+  greetParent() {
+    alert(`Hello ${this.state.parentName}`);
+  }
+
+  render() {
+    return (
+      <div>
+        <ChildComponent greetHandler={this.greetParent} />
+        {/* We are passing a reference to the greet parent method as a prop called 'greet handler' */}
+      </div>
+    );
+  }
+}
+
+export default ParentComponent;
+
+//15. Child component
+import React from "react";
+
+function ChildComponent(props) {
+  return (
+    <div>
+      <button onClick={props.greetHandler}>Greet Parent</button>
+      {/* passing the method as 'props' to child component */}
+    </div>
+  );
+}
+
+export default ChildComponent;
+
+
+//15.2 If we want to pass a parameter when calling a parent method from the child component as well, then we use the 'arrow function'
+
+-Arrow function syntax is the simplest way to pass parameters from the child component to the parent component
+
+//15.2 Parent component
+import React, { Component } from "react";
+import ChildComponent from "./ChildComponent";
+
+class ParentComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      parentName: "Parent",
+    };
+    this.greetParent = this.greetParent.bind(this);
+  }
+
+  greetParent(childName) {
+    alert(`Hello ${this.state.parentName} from ${childName}`);
+  }
+
+  render() {
+    return (
+      <div>
+        <ChildComponent greetHandler={this.greetParent} />
+        {/* We are passing a reference to the greet parent method as a prop called 'greet handler' */}
+      </div>
+    );
+  }
+}
+
+export default ParentComponent;
+
+
+//Child component
+//15.2 Child component
+import React from "react";
+
+function ChildComponent(props) {
+  return (
+    <div>
+      <button onClick={() => props.greetHandler("child")}>Greet Parent</button>
+    </div>
+  );
+}
+
+export default ChildComponent;
+
+//16. cnditional rendering
+- Conditional rendering works in the same way in React as JavaScript.
+- We have 4 differnt approaches to achieve it:
+1. if/else
+2. Element variables
+3. Ternary conditional operator
+4. Short circuit operator
+
+1. using 'if/else' 
+
+import React, { Component } from "react";
+
+class UserGreeting extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      //   isLoggedIn: false,// o/p- Welcome JavaScript
+      isLoggedIn: true, //o/p- Welcome React
+    };
+  }
+  render() {
+    if (this.state.isLoggedIn) {
+      return <div>Welcome React</div>;
+    } else {
+      return <div>Welcome JavaScript</div>;
+    } //if-else statement does not work inside JSX because JSX is syntactic sugar for function call and object construction
+
+    // return(<div>
+    //     <div>Welcome React</div>
+    //     <div>Welcome JavaScript</div>
+    // </div>) ;
+  }
+}
+
+export default UserGreeting;
+
+
+
+2. Using 'element variables'
+
+In this approach we use JS variables to store elements. It helps us conditonally render the entire componentor a part of the component aspect as well.
+//16
+//16.1 Using if-else
+// import React, { Component } from "react";
+
+// class UserGreeting extends Component {
+//   constructor(props) {
+//     super(props);
+
+//     this.state = {
+//       //   isLoggedIn: false,// o/p- Welcome JavaScript
+//       isLoggedIn: true, //o/p- Welcome React
+//     };
+//   }
+//   render() {
+//     if (this.state.isLoggedIn) {
+//       return <div>Welcome React</div>;
+//     } else {
+//       return <div>Welcome JavaScript</div>;
+//     } //if-else statement does not work inside JSX because JSX is syntactic sugar for function call and object construction
+
+//   }
+// }
+
+// export default UserGreeting;
+
+//16.2 Using element variables
+
+
+  render() {
+    let message;
+
+    if (this.state.isLoggedIn) {
+      message = <div>Welcome React</div>;
+    } else {
+      message = <div>Welcome JavaScript</div>;
+    }
+    return <div>{message}</div>;
+  }
+
+
+export default UserGreeting;
+
+//16.3 Using ternary operator
+
+- It can be used inside the JSX
+
+render() {
+    return this.state.isLoggedIn ? (
+      <div>Welcome React</div>
+    ) : (
+      <div>Welcome JavaScript</div>
+    );
+  }
+
+
+//16.4 Using Short circuit operator
+
+- This approach is a specific case of the ternary operator
+render() {
+    return this.state.isLoggedIn && <div>Welcome React</div>;//o/p - Welcome React if true, nothing(empty page) if false
+  }
+  
+  //17. List Rendering
+  //17. List Rendering
+//17.1
+import React from "react";
+
+function NameList() {
+  //   const names = ["Bruce", "Clark", "Diana"];
+
+  const persons = [
+    {
+      id: 1,
+      name: "Bruce",
+      age: "30",
+      skill: "React",
+    },
+    {
+      id: 2,
+      name: "Clark",
+      age: "25",
+      skill: "Angular",
+    },
+    {
+      id: 3,
+      name: "Diana",
+      age: "28",
+      skill: "Vue",
+    },
+  ];
+
+  //   const nameList = names.map((name) => <h2>{name}</h2>);
+  const personList = persons.map((person) => (
+    <h2>
+      I am {person.name}. I am {person.age} years old. I know {person.skill}{" "}
+    </h2>
+  ));
+  //   return <div>{nameList}</div>;
+  return <div>{personList}</div>;
+}
+
+export default NameList;
+
+//17.2
+
+//NameList.js
+import React from "react";
+import Person from "./Person";
+
+function NameList() {
+  //   const names = ["Bruce", "Clark", "Diana"];
+
+  const persons = [
+    {
+      id: 1,
+      name: "Bruce",
+      age: "30",
+      skill: "React",
+    },
+    {
+      id: 2,
+      name: "Clark",
+      age: "25",
+      skill: "Angular",
+    },
+    {
+      id: 3,
+      name: "Diana",
+      age: "28",
+      skill: "Vue",
+    },
+  ];
+
+  const personList = persons.map((person) => <Person person={person}></Person>);
+  //   Including the person component and passing it as a prop
+
+  return <div>{personList}</div>;
+}
+
+export default NameList;
+
+
+//Person.js
+import React from "react";
+
+function Person({ person }) {//destructuring the person right in the prop itself
+  return (
+    <div>
+      <h2>
+        I am {person.name}. I am {person.age} years old. I know {person.skill}
+      </h2>
+    </div>
+  );
+}
+
+export default Person;
+
+//18. List and keys
+- A 'key' is a special string attribute we need to include when creating list of elements.
+- Keys give the element a stable identity. 
+- Keys help 'React' determine which items in the list has changed or added or removed and play a crucial role in handling UI updates efficiently.
+
+  const personList = persons.map((person) => (
+    <Person key={person.id} person={person}></Person>
+  ));
+   // It can be {person.name} or {person.age} as well because they too are unique.
+  
+  - They are not accessible in the child component
+  
+//19-43
+
+//19. Index as Key Anti-pattern
+
+//In this module we will learn about how to use index as a key when rendering lists and the problems we might face when used in the wrong scenario.
+
+//NameList.js
+import React from "react";
+import Person from "./Person";
+
+function NameList() {
+  const names = ["Bruce", "Clark", "Diana"];
+  const persons = [
+    {
+      id: 1,
+      name: "Bruce",
+      age: "30",
+      skill: "React",
+    },
+    {
+      id: 2,
+      name: "Clark",
+      age: "25",
+      skill: "Angular",
+    },
+    {
+      id: 3,
+      name: "Diana",
+      age: "28",
+      skill: "Vue",
+    },
+  ];
+
+  /*
+  const nameList = names.map(
+    (
+      name //name parameter represents the array item in each iteration
+      // ) => <h2 >{name}</h2> //Although it will give the output it will give an error in the console
+
+      //To fix this error we need to add the 'key prop'
+    ) => <h2 key={name}>{name}</h2> //Using name as the key sincewe don't have a unique id that uniquely
+    //identifies each item in the array
+    //But it will still give a warning if we have two keys with the same name. The arrow function that is
+    //passed to the map method receives a second parameter which is the index of the element in the 
+    //current iteration
+  );
+*/
+  //Updating the above code by adding 'index'
+  const nameList = names.map(
+    (
+      name,
+      index //index is passed as a second parameter to the 'map'
+    ) => (
+      //method and that indexis used as a value to the key prop.(It may cause certain UI issues in some scenarios)
+
+      <h2 key={name}>
+        {index} {name}
+      </h2>
+    )
+  );
+
+  return <div>{nameList}</div>;
+}
+
+export default NameList;
+
+
+//Using Index as a key should be avoided and should only be used if it satisfies certain conditions(all 3):
+1. The items in the list do not have a unique id.
+2. The list is a static list and will not be changed.
+3. The list will never be reordered or filtered.
+
+
+//22. Component lifecycle methods
+
+- We can classify these methods in 4 stages:
+1. Mounting - The 'mounting' methods are called when an instance of the component is being created and inserted inside the DOM.
+	There are 4 methods in the mounting state: constructor, static getDerivedStateFromProps, render and componentDidMount.
+
+2. Updating - The 'updating' methods are called when a component is being re-rendered as a result of changes to either its props or state.
+	There are 5 methods in the updating state: static getDerivedStateFromProps, shouldComponentUpdate, render, getSnapshotBeforeUpdate and ComponentDidUpdate
+	
+3. Unmounting - The 'unmounting' methods are called when a component is being removed from the DOM.
+	There is only 1 method in the unmounting state: componentWillUnmount
+	
+4. Error handling - The 'error handling' methods are called when there is an error during rendering, in a lifecycle method or in the
+   constructor of any child component. 
+   There are 2 methods in the error handling state: static getDerivedStateFromerror and componentDidCatch 
+   
+   
+   //23. Component Lifecycle methods - Mounting Lifecycle methods
+   
+   1. Method 1: Constructor 
+   - A constructor is a special function that will get called whenever a new component is created.
+   - It is used for Initializing state and Binding the Event handlers.
+   - We should never cause side-effetcs in a constructor. For e.g. We should never make HTTP requests from within a constructor.
+   - Two important points that that should be kept in mind while defining our own costructors:
+     1. We have to call a  function called - super(props): It will call the base class constructor. In our component we have access to 'this.props' only
+	 after we have initially called super by passing in props as the initial argument. i.e. super(props)
+	 2. The constructor is the only place where we are expected to change or set the state by directly overwriting 'this.state' fields. In all other 
+		scenarios we have to use- this.setState.
+		
+   2. Method 2: static getDerivedStateFromProps
+   - This method is generally used when the state of the component depends upon the changes in props over time.
+   - Since this method is a static method we do not have access to the 'this' keyword. We cannot call 'this.state' in this particular method.
+	 Instead we have to simply return the object that returns the new state of the component.
+   - We should never cause side-effetcs in it. For e.g. We should never make HTTP requests.
+   
+   3. Method 3: render()
+   - The render method is the only required method in a class component.
+   - In the render method we simply read this.props and this.state and return the JSX which describes the UI.
+   - The render function is a pure function - For the given props and state it should always render the same UI.
+   - We should not change the state of the component or interacting with the DOM or making any Ajax calls.
+   - Since it is the render method JSX whic also contains the other children components right after the parent render method, the Children components
+     lifecycle methods are also executed.
+	 
+   4. Method 4: componentDidMount
+   - This methood will be called only once in the whole lifecycle of a given component and it is invoked immediately after a componentband allbits
+     children components have been rendered to the DOM.
+   - This method is the perfect place to cause side effects. Ex: We can interact with the DOM or perform any ajax calls to load data.
+   
+   
+   //LifeCycleA.js
+   
+ import React, { Component } from "react";
+
+ class LifecycleA extends Component {
+  //Method 1
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "React",
+    };
+    console.log("LifecycleA constructor ");
+  }
+  //Method2
+  static getDerivedStateFromProps(props, state) {
+    console.log("LifecycleA getDerivedStateFromProps");
+    return null;
+  }
+
+  //Method 4
+  componentDidMount() {
+    console.log("LifecycleA componentDidMount");
+  }
+  //Method 3
+  render() {
+    console.log("LifecycleA render");
+    return <div>LifecycleA</div>;
+  }
+}
+
+export default LifecycleA;
+
+   
+   //LifecycleB.js
+   
+   //23.2 When the component has a child component
+
+import React, { Component } from "react";
+import LifecycleB from "./LifecycleB";
+
+class LifecycleB extends Component {
+  //Method 1
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "React",
+    };
+    console.log("LifecycleB constructor ");
+  }
+  //Method2
+  static getDerivedStateFromProps(props, state) {
+    console.log("LifecycleB getDerivedStateFromProps");
+    return null;
+  }
+
+  //Method 4
+  componentDidMount() {
+    console.log("LifecycleB componentDidMount");
+  }
+  //Method 3
+  render() {
+    console.log("LifecycleB render");
+    return <div>LifecycleB</div>;
+	
+	/* After writing 23.2
+	return (
+      <div>
+        <div>LifecycleA</div>
+        <LifecycleB />
+      </div>
+    );
+	*/
+  }
+}
+
+export default LifecycleB;
+
+
+//24. Updating lifecycle Methods
+	- Method that are called when a method is being re-rendered because of changes to either props or state.
+
+//LifecycleA.js	
+import React, { Component } from "react";
+import LifecycleB from "./LifecycleB";
+
+class LifecycleA extends Component {
+  //Method 1
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "React",
+    };
+    console.log("LifecycleA constructor ");
+  }
+  //Method2
+  static getDerivedStateFromProps(props, state) {
+    console.log("LifecycleA getDerivedStateFromProps");
+    return null;
+  }
+
+  //Method 4
+  componentDidMount() {
+    console.log("LifecycleA componentDidMount");
+  }
+  //24
+  shouldComponentUpdate() {
+    console.log("Lifecycle A shouldComponentUpdate");
+    return true;
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("Lifecycle A get snapshot before update");
+    return null;
+  }
+
+  componentDidUpdate() {
+    console.log("Lifecycle A componentDidUpdate");
+  }
+  changeState = () => {
+    this.setState({
+      name: "Codevolution",
+    });
+  };
+
+  //24
+  //Method 3
+  render() {
+    console.log("LifecycleA render");
+    return (
+      <div>
+        <div>LifecycleA</div>
+        <LifecycleB />
+        <button onClick={this.changeState}>Change state</button>
+      </div>
+    );
+  }
+}
+
+export default LifecycleA;
+
+
+//LifecycleB.js
+//23.2 When the component has a child component
+
+import React, { Component } from "react";
+
+class LifecycleB extends Component {
+  //Method 1
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "React",
+    };
+    console.log("LifecycleB constructor ");
+  }
+  //Method2
+  static getDerivedStateFromProps(props, state) {
+    console.log("LifecycleB getDerivedStateFromProps");
+    return null;
+  }
+
+  //Method 4
+  componentDidMount() {
+    console.log("LifecycleB componentDidMount");
+  }
+  //24
+  shouldComponentUpdate() {
+    console.log("Lifecycle B shouldComponentUpdate");
+    return true;
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("Lifecycle B get snapshot before update");
+    return null;
+  }
+
+  componentDidUpdate() {
+    console.log("Lifecycle B componentDidUpdate");
+  }
+
+  //24
+
+  //Method 3
+  render() {
+    console.log("LifecycleB render");
+    return <div>LifecycleB</div>;
+  }
+}
+
+export default LifecycleB;
+
+
+	//Method 1. static getDerivedStateFromProps(props, state) - Method is called every time a component is re-rendered	
+	
+	//Method 2. shouldComponentUpdate(nextProps, nextState)	- It dictates if at all a component should re-render or not.
+    - By default all class component will re-rerender whenever the props they receive or their state changes. This method 
+	  can prevent the default behaviour by returning false.
+	  
+	 - Do not cause side effects. Ex: HTTP requests - Calling the setState method.
+	 
+	//Method 3. render() - Only mandatory method
+	 - We read this.props and this.state and return the JSX which describes the UI.
+	 
+	 //Method 4 getSnapshotBeforeUpdate
+	 - This method accepts previous props and previous state as its parameters and is called right before tye changes from the 
+	   virtual DOM are to be reflected in the DOM. 
+     - This method will either return null or return a value.
+	 
+	 //Method 5 componentDidUpdate
+	 - This method will be called after the render is finished in the re-render cycles. 
+	 - This method accepts 3 parameters: previous props, previous state and the snapshot value returned from get snapshot before update method.
+	 - This method is to be called only once in each re-render cycle.
+	 - We can cause side effects. e.g. Making Ajax calls
+
+
+	- We have a slightly different order for getSnapshotBeforeUpdate componentDidUpdate. First the child component method is executed and then
+	  the corresponding parent component method is executed.
+
+ //Unmounting Phase methods
+	- It has only one method: componentWillUnmount
+	- This method is invoked immediately before a component is unmounted and destroyed.
+	- In this method we can perform some cleanup tasks like: Cancelling any network requests,
+      removing event handlers, cancelling any subscriptions and also invalidating timers.
+	- Do not call the setState method
+	
+//Error handling phase
+	- This phase has 2 methods: static getDerivedFromError(error), componentDidCatch(error, info)
+	- These two methods are called when there is an error either during rendering, in a lifecycle method or in the constructor of any child component.
+	
+
+//44. Hooks introduction
+
+- Hooks are a new featur addition in React version 16.8 which allows us to use React features without having to write a class. E.g. State of a component
+- Hooks don't work inside classes.
+- Hooks allow us to reuse stateful logic without changing our component hierarchy.
+- Hooks let us organize the logic inside a component into reusable isolated units.
+
+//45. useState Hooks
+
+45.1 Implementing the counter using class Component
+
+Step 1: Create a class component
+
+Step 2: Create a state variable initialized to 0(count: 0).
+Step 3: Create a method that is capable of setting this state value
+
+
+//45.1 ClassCounter.js
+//Creating counter using class component
+
+import React, { Component } from "react";
+
+class ClassCounter extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  incrementCount = () => {
+    this.setState({
+      count: this.state.count + 1,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <button onClick={this.incrementCount}>Count {this.state.count}</button>
+      </div>
+    );
+  }
+}
+
+export default ClassCounter;
+
+
+45.2 Implementing counter as a functional component
+
+Pre-requisites: Read about Array destructuring from the following link: https://www.w3schools.com/react/react_es6_destructuring.asp
+
+Step 1: Create a functional component.
+Step 2: We need a state proprty initializedto zero
+Step 3: We need a method capable of stating that state value
+
+
+//HookCounter.js
+import React, { useState } from "react"; //import {useState} along with react to use Hooks
+
+function HookCounter() {
+  //Hooks are just functions so we simply call them
+
+  //Step2: A state variable(count) initialized to zero and a method(useState) capabale of updating that count variable.
+  const [count, setCount] = useState(0); // Syntax of array destructuring - A feature of ES6
+  //This Hooks accepts an argument which is the initial value of the state property and returns the
+  //current value of the state property and a method capable of updating that state property.
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count {count}</button>
+      {/* //converted into an arrow function since it became a function call */}
+    </div>
+  );
+}
+
+export default HookCounter;
+
+
+
+RULES OF HOOKS
+1. Only call Hooks at the "Top level" - Don't call Hooks inside loops, conditions, or nested functions.
+2. Only call Hooks from React Functions - Call them from React functional components and not just any regular javaScript function.
+
+
+//46 - useState with previous state
+
+
+//HookCouterTwo.js
+import React, { useState } from "react";
+
+function HookCouterTwo() {
+  const initialCount = 0; //state variable
+  const [count, setCount] = useState(initialCount); //corresponding setter function for the state variable
+
+  const incrementFive = () => {
+    for (let i = 0; i < 5; i++) {
+      //   setCount(count + 1); //It won't work
+      setCount((prevCount) => prevCount + 1); //Instead of passing in the value of the new state variablee we pass in a function
+											  //that has access to the old state value
+    }
+  };
+  return (
+    <div>
+      Count : {count}
+      <button onClick={() => setCount(initialCount)}>Reset</button>
+      <button onClick={() => setCount((prevCount) => prevCount + 1)}>
+        Increment
+      </button>
+      <button onClick={() => setCount((prevCount) => prevCount - 1)}>
+        {" "}
+        Decrement
+      </button>
+      <button onClick={incrementFive}>increment Five</button>
+    </div>
+  );
+}
+
+export default HookCouterTwo;
+
+
+46.2
+//ClassCounter2.js - A similar approach for ClassCounter executed in module number 45
+import React, { Component } from "react";
+//46.2 Creating counter using class component
+class ClassCounter2 extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  incrementCount = () => {
+    this.setState((prevState) => {
+      return {
+        count: prevState.count + 1,
+      };
+    });
+  };
+  render() {
+    return (
+      <div>
+        <button onClick={this.incrementCount}>Count {this.state.count}</button>
+      </div>
+    );
+  }
+}
+
+export default ClassCounter2;
+
+
+//47 - useState with Object
+
+//HookCounterThree.js
+//47. useState  with object
+import React, { useState } from "react";
+
+function HookCounterThree() {
+  const [name, setName] = useState({ firstName: "", lastName: "" }); //state variable 'name'- an object. Setter function setName to update the corresponding state variable
+
+  return (
+    <div>
+      <form>
+        <input
+          type="text"
+          value={name.firstName}
+          onChange={(e) => setName({ ...name, firstName: e.target.value })}
+        ></input>
+        <input
+          type="text"
+          value={name.lastName}
+          onChange={(e) => setName({ ...name, lastName: e.target.value })}
+        ></input>
+        <h2>Your first name is: {name.firstName}</h2>
+        <h2>Your last name is: {name.lastName}</h2>
+        <h2>{JSON.stringify(name)}</h2>
+        {/* // firstName will disapper while typing lastName and vice-versa because useState does not automatically merge and update the object */}
+        {/* Set state will merge the state whereas the Hook Setter function will not merge the state. We have to do it manually.
+		We use 'spread' operator to handle this manual merge */}
+      </form>
+    </div>
+  );
+}
+
+export default HookCounterThree;
+
+//48. useState With Array - When the state variable is an array
+
+
+//HookCounterFour.js
+
+import React, { useState } from "react";
+
+function HookCounterFour() {
+  const [items, setItems] = useState([]); //default value is an empty array
+  const addItem = () => {
+    setItems([
+      ...items,
+      {
+        id: items.length,
+        value: Math.floor(Math.random() * 10) + 1,
+      },
+    ]); //whenever addItem is called, we make a copy of all the items in the array using the spread operator
+    //To that list of copied items we simply append another object
+  };
+  return (
+    <div>
+      <button onClick={addItem}>Add a number</button>
+
+      {/* Button to push new items in the array */}
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>{item.value}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default HookCounterFour;
+
+
+//SUMMARY - useState
+- The useState hooks let us add state to functional components - By calling useState inside the functional components we are creating a single piece of state.
+
+- In classes, the state is always an object - We can store properties on that object.
+
+- With the useState hook, the state doesn't have to be an object - It can be array, a number, a boolean, a string etc.
+
+- The useState hook returns an array with 2 elements.
+- The first element is the current value of the state, and the second element is a state setter function - We call the setter function with a new value to 
+  set the state which will in turn  cause the component to rerender.
+  
+- In case the New state value depends upon the previous state value, we can pass a function to the setter function - The setter function will receive its
+  previous state as the argument.
+ 
+- When deling with objects or arrays, always make sure to spread the state variable and then call the setter function.
+
+
+//49. useEffect Hook
+
+- The Effect Hook lets us perform side effects in functional components.
+- It is a close replacement for componentDidMount, componenetDidUpdate and componentWillUnmount.
+
+//50. useEffects after render
+
+//HookCounterOne.js
+
+import React, { useState, useEffect } from "react";
+
+function HookCounterOne() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // This parameter is a function which gets executed after every render of the component
+    document.title = `Yo clicked ${count} times`;
+  }); // It will print - 'You clicked {count} times' in the title of the page
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
+    </div>
+  );
+}
+
+export default HookCounterOne;
+
+	-useEffect runs after every render of the function.
+	-useEffect is placed insid ethe component. By doing this, we can easily access the component's state and props without having to write any
+	 additional code.
+	 
+//51. conditionally runEffects
+
+//HookCounterOne.js
+//Implementing using functional component
+import React, { useState, useEffect } from "react";
+
+function HookCounterOne() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    console.log("useEffect - Updating document title");
+    //For conditionally executing an effect we pass in a second parameter
+    document.title = `You clicked ${count} times`;
+  }, [count]); //For conditionally executing an effect we pass in a second parameter, this parameter is an array
+  //Within this array we need to specify either props or state that we need to watch for
+  //Only if those props and states specified in this array were to change the effect would be executed
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      ></input>
+      <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
+    </div>
+  );
+}
+
+export default HookCounterOne;
+
+
+//52. Run effects only once
+
+//HookMouse.js
+
+import React, { useState, useEffect } from "react";
+
+function HookMouse() {
+  //1.Creating two state variables x and y initialized to zero.
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  //3. Add an event listner for the mouse event
+  const logMousePosition = (e) => {
+    console.log("Mouse event");
+    setX(e.clientX);
+    setY(e.clientY);
+  };
+
+  useEffect(() => {
+    console.log("useEffect called");
+    window.addEventListener("mousemove", logMousePosition);
+  }, []); //By using empty array we are telling React that this effect does not depend on any props or state,
+  //there is no reason to call this effect on re renders
+  //i.e. React should only call the effect during the initial render and forget about it.
+  return (
+    <div>
+      {/* 2.Rendereing the create state variables created above */}
+      Hooks X - {x} Y - {y}
+    </div>
+  );
+}
+
+export default HookMouse;
+
+
+//53.
+
+
+//MouseContainer.js
+import React, { useState } from "react";
+import HookMouse from "./HookMouse";
+
+function MouseContainer() {
+  const [display, setDisplay] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setDisplay(!display)}>Toggle display</button>
+      {display && <HookMouse />}
+    </div>
+  );
+}
+
+export default MouseContainer;
+
+
+//HookMouse.js
+import React, { useState, useEffect } from "react";
+
+function HookMouse() {
+  //1.Creating two state variables x and y initialized to zero.
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  //3. Add an event listner for the mouse event
+  const logMousePosition = (e) => {
+    console.log("Mouse event");
+    setX(e.clientX);
+    setY(e.clientY);
+  };
+ 
+
+  //53.Implementing Clean up function
+  useEffect(() => {
+    console.log("useEffect called");
+    window.addEventListener("mousemove", logMousePosition);
+
+    return () => {
+      console.log("Component unmounting code");
+      window.removeEventListener("mousemove", logMousePosition);
+    };
+  }, []);
+
+  return (
+    <div>
+      {/* 2.Rendereing the create state variables created above */}
+      Hooks X - {x} Y - {y}
+    </div>
+  );
+}
+
+export default HookMouse;
